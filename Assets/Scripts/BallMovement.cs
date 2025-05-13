@@ -10,9 +10,11 @@ public class BallMovement : MonoBehaviour
     private void Awake()
     {
         Body = GetComponent<Rigidbody2D>();
-        Body.linearVelocity = Vector2.one * StartSpeed;
+        Body.linearVelocity = Vector2.one * StartSpeed*GetOrientation(Random.Range(0,101));
         CollidedWithPlayer = false;
     }
+
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,9 +31,11 @@ public class BallMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("ScoreBorder"))
         {
             SendPointScore(transform.position.x);
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
+
+    
 
     private void SetNormalSpeed()
     {
@@ -47,6 +51,14 @@ public class BallMovement : MonoBehaviour
         if (Position > 0)
             ScoreManager.Instance.PointScore(2);
         
+    }
+
+    private int GetOrientation(int Number)
+    {
+        if (Number <= 50)
+            return -1;
+        else
+            return 1;
     }
 }
 //make the ball faster after first touch
